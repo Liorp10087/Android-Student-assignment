@@ -8,6 +8,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
+
         <activity
             android:name=".StudentsRecyclerViewActivity"
             android:exported="true">
@@ -16,6 +17,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".AddStudentActivity"
             android:exported="false" />
@@ -27,5 +29,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".StudentDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EditStudentActivity"
+            android:exported="false" />
     </application>
 </manifest>

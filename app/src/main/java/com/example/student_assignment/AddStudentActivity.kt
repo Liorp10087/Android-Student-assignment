@@ -18,14 +18,14 @@ class AddStudentActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_add_student)
 
-        // Handle system UI insets (optional)
+        title = "Add New Student"
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        // Initialize fields and buttons
         val nameField: EditText = findViewById(R.id.add_student_name_text_field)
         val idField: EditText = findViewById(R.id.add_student_id_text_field)
         val phoneField: EditText = findViewById(R.id.add_student_phone_text_field)
@@ -35,7 +35,6 @@ class AddStudentActivity : AppCompatActivity() {
         val cancelButton: Button = findViewById(R.id.add_student_cancel_button)
         val successMessage: TextView = findViewById(R.id.add_student_success_saved_text_view)
 
-        // Save button logic
         saveButton.setOnClickListener {
             val name = nameField.text.toString()
             val id = idField.text.toString()
@@ -43,28 +42,23 @@ class AddStudentActivity : AppCompatActivity() {
             val address = addressField.text.toString()
             val isChecked = checkBox.isChecked
 
-            // Validate input
             if (name.isEmpty() || id.isEmpty()) {
                 successMessage.text = "Name and ID are required."
                 successMessage.setTextColor(resources.getColor(android.R.color.holo_red_dark))
                 return@setOnClickListener
             }
 
-            // Add the new student to the Model
             val newStudent = Student(name, id, null, phone, address, isChecked)
             Model.shared.students.add(newStudent)
 
-            // Show success message
             successMessage.text = "Student added successfully!"
             successMessage.setTextColor(resources.getColor(android.R.color.holo_green_dark))
 
-            // Close activity after saving
             finish()
         }
 
-        // Cancel button logic
         cancelButton.setOnClickListener {
-            finish() // Close without saving
+            finish()
         }
     }
 }

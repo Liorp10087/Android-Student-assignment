@@ -33,14 +33,15 @@ class StudentsRecyclerViewActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_students_recycler_view)
 
-        // Handle system insets
+        title = "Students List"
+
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        // Initialize the RecyclerView and adapter
         recyclerView = findViewById(R.id.students_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = StudentsRecyclerAdapter(Model.shared.students)
@@ -53,24 +54,33 @@ class StudentsRecyclerViewActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // Handle RecyclerView item clicks (optional, if needed for more functionality)
         adapter.listener = object : OnItemClickListener {
             override fun onItemClick(position: Int) {
                 Log.d("TAG", "Clicked on item at position: $position")
             }
 
             override fun onItemClick(student: Student?) {
-                Log.d("TAG", "Clicked on student: ${student?.name}")
+                if (student != null) {
+                    val intent = Intent(this@StudentsRecyclerViewActivity, StudentDetailsActivity::class.java)
+                    intent.putExtra("studentName", student.name)
+                    intent.putExtra("studentId", student.id)
+                    intent.putExtra("studentPhone", student.phone)
+                    intent.putExtra("studentAddress", student.address)
+                    intent.putExtra("studentChecked", student.isChecked ?: false)
+                    startActivity(intent)
+                }
+                else {
+                    Log.e("TAG", "Student object is null")
+                }
             }
         }
     }
 
     override fun onResume() {
         super.onResume()
-        adapter.notifyDataSetChanged() // Refresh RecyclerView when returning to this activity
+        adapter.notifyDataSetChanged()
     }
 
-    // ViewHolder class for the RecyclerView items
     class StudentViewHolder(itemView: View, listener: OnItemClickListener?) :
         RecyclerView.ViewHolder(itemView) {
 
@@ -96,7 +106,6 @@ class StudentsRecyclerViewActivity : AppCompatActivity() {
         }
     }
 
-    // Adapter class for RecyclerView
     class StudentsRecyclerAdapter(private val students: MutableList<Student>) :
         RecyclerView.Adapter<StudentViewHolder>() {
 
